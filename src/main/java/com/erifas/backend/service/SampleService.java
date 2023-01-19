@@ -21,6 +21,7 @@ public class SampleService {
     }
 
     public List<SampleEntity> findAll() {
+        
         return sampleRepository.findAll();
     }
 
