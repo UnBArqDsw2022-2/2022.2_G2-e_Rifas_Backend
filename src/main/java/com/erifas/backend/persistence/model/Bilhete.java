@@ -22,8 +22,6 @@ public class Bilhete {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Rifa rifa;
-
-    @Column(columnDefinition = "boolean default false")
-    private Boolean sorteado;
+    private Boolean sorteado = false;
 
 }
