@@ -8,3 +8,14 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+keycloak:
+  realm: master
+  resource: admin-cli
+  public-client: true
+  ssl-required: external
+  auth-server-url: http://localhost:8082/auth
+
+keycloak-configuration:
+  token-url: /realms/{realm}/protocol/openid-connect/token
+  client-secret: ONxCbOkFT7FzNmeONmAJH14vIJ10wC0g

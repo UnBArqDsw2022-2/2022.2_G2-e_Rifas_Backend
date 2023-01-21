@@ -12,11 +12,46 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: erifas_db
     volumes:
-      - /data:/var/lib/postgresql/data
+      - postgres_data/var/lib/postgresql/data
+      - ./initial.sql:/docker-entrypoint-initdb.d/initial.sql
+    networks:
+      - stack-e_rifas
 
+  keycloak:
+    container_name: e_rifas-auth
+    image: quay.io/keycloak/keycloak:16.1.1
+    depends_on:
+      - db
+    ports:
+      - "8082:8080"
+    environment:
+      - DB_VENDOR=POSTGRES
+      - DB_ADDR=db
+      - DB_PORT=5432
+      - DB_DATABASE=erifas_db
+      - DB_SCHEMA=auth
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - TZ=America/Fortaleza
+      - PROXY_ADDRESS_FORWARDING=false
+      - KEYCLOAK_STATISTICS=all
+    networks:
+      - stack-e_rifas
 
   adminer:
     image: adminer
     restart: always
     ports:
       - "8083:8080"
+    networks:
+      - stack-e_rifas
+
+networks:
+  stack-e_rifas:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
