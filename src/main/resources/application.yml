@@ -8,3 +8,13 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+keycloak:
+  realm: e-rifas
+  resource: e-rifas-backend
+  public-client: true
+  ssl-required: external
+  auth-server-url: http://localhost:8082/auth
+
+keycloak-configuration:
+  token-url: /realms/{realm}/protocol/openid-connect/token
