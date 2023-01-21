@@ -4,26 +4,24 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Entity
-@Table(name = "comprador")
+@Table(name = "bilhete")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Comprador {
+public class Bilhete {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "comprador")
-    private List<Bilhete> bilhetes;
+    private Integer numero;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Comprador comprador;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Rifa rifa;
+    private Boolean sorteado = false;
+
 }
