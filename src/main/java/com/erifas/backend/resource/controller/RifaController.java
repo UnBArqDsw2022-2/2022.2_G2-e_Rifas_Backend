@@ -28,7 +28,7 @@ public class RifaController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PostMapping("/remover/{id}")
+    @PostMapping("/cancelar/{id}")
     public ResponseEntity<RifaService> cancelarRifa(@PathVariable Long id)
     {
         if(rifaService.cancelarRifa(id))
