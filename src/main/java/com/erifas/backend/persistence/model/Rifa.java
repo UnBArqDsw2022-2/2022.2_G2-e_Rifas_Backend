@@ -28,12 +28,4 @@ public class Rifa {
     public Long getId() {
         return id;
     }
-    
-    public void setStatus(StatusRifa status) { 
-        this.status = status; 
-    }
-
-    public Enum<StatusRifa> getStatus() { 
-        return this.status; 
-    }
 }
