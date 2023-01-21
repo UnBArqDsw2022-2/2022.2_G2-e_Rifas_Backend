@@ -16,6 +16,7 @@ public class Rifa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private StatusRifa status;
 
     @OneToMany(mappedBy = "rifa")
     private List<Bilhete> bilhetes;
