@@ -1,30 +1,29 @@
 package com.erifas.backend.persistence.model;
 
-import java.util.List;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "rifa")
+@Table(name = "bilhete")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Rifa {
+public class Bilhete {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "rifa")
-    private List<Bilhete> bilhetes;
+    private Integer numero;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Comprador comprador;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Rifa rifa;
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean sorteado;
+
 }
