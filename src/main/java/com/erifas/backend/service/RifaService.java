@@ -16,24 +16,17 @@ public class RifaService {
         this.rifaRepository = rifaRepository;
     }
 
-    public boolean aprovarRifa (Long id)
+    public boolean mudarStatusRifa (Long id, StatusRifa status)
     {
         Optional<Rifa> rifa = rifaRepository.findById(id);
         if(rifa.isPresent())
         {
-            rifa.get().setStatus(StatusRifa.ABERTA);
-            rifaRepository.save(rifa.get());
-            return true;
-        }
-        return false;
-    }
-
-    public boolean cancelarRifa (Long id)
-    {
-        Optional<Rifa> rifa = rifaRepository.findById(id);
-        if(rifa.isPresent())
-        {
-            rifa.get().setStatus(StatusRifa.CANCELADA);
+            switch (status) {
+                case ABERTA -> rifa.get().setStatus(StatusRifa.ABERTA);
+                case FECHADA -> rifa.get().setStatus(StatusRifa.FECHADA);
+                case EM_ANALISE -> rifa.get().setStatus(StatusRifa.EM_ANALISE);
+                case CANCELADA -> rifa.get().setStatus(StatusRifa.CANCELADA);
+            }
             rifaRepository.save(rifa.get());
             return true;
         }
