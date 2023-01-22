@@ -1,6 +1,9 @@
 package com.erifas.backend.resource.controller;
 
 import com.erifas.backend.persistence.model.Bilhete;
+
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
+import org.springframework.http.HttpStatus;
 import com.erifas.backend.service.BilheteService;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +19,12 @@ public class BilheteController {
         this.bilheteService = bilheteService;
     }
 
-    @PostMapping()
-    public ResponseEntity<Bilhete> cadastrarBilhete(@RequestBody Bilhete e) {
-        return ResponseEntity.ok(bilheteService.save(e));
+    @PostMapping("/{id}")
+    public ResponseEntity<Bilhete> cadastrarBilhete(@RequestBody Bilhete e, @PathVariable Long idRifa) {
+        if (bilheteService.verificaCountMaximoBilhetes(idRifa)) {
+            return ResponseEntity.ok(bilheteService.save(e));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PostMapping("/ganhadores")
@@ -28,5 +34,11 @@ public class BilheteController {
         }
 
         return ResponseEntity.ok(bilheteService.saveAll(bilhetes));
+    }
+
+    @GetMapping("/contabilhetes/{id}")
+    public ResponseEntity<Float> contaBilhetesVendidos(@PathVariable Long idRifa) {
+        return bilheteService.getCountBilhetes(idRifa).map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
