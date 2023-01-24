@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "rifa")
@@ -17,10 +20,15 @@ public class Rifa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nome;
     private StatusRifa status;
 
     @OneToMany(mappedBy = "rifa")
     private List<Bilhete> bilhetes;
+
+    @OneToOne(optional = true)
+    @JoinColumn(name = "bilhete_id", referencedColumnName = "id")
+    private Bilhete bilheteVencedor;
 
     public void setId(Long id) {
         this.id = id;
