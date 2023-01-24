@@ -7,11 +7,8 @@ import com.erifas.backend.persistence.model.Rifa;
 import com.erifas.backend.service.RifaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rifa")
@@ -21,6 +18,13 @@ public class RifaController {
 
     public RifaController(RifaService rifaService) {
         this.rifaService = rifaService;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Rifa> criarRifa(@Validated @RequestBody Rifa request) {
+        Rifa novaRifa = rifaService.criarRifa(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novaRifa);
     }
 
     @PutMapping("/aprovar/{id}")

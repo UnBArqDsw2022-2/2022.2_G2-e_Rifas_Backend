@@ -23,6 +23,10 @@ public class RifaService {
         this.rifaRepository = rifaRepository;
     }
 
+    public Rifa criarRifa(Rifa rifa) {
+        return rifaRepository.save(rifa);
+    }
+
     public boolean mudarStatusRifa(Long id, StatusRifa status) {
         Optional<Rifa> rifa = rifaRepository.findById(id);
         if (rifa.isPresent()) {
