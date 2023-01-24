@@ -7,7 +7,9 @@ import com.erifas.backend.repository.jpa.core.RifaRepository;
 import com.erifas.backend.resource.controller.RifaController;
 
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BilheteService {
@@ -27,20 +29,12 @@ public class BilheteService {
         return bilheteRepository.saveAll(e);
     }
 
-    // Não testado, talvez retorne um json
     public Optional<Integer> getCountBilhetes(Long idRifa) {
-        Optional<Integer> quantBilhetes = rifaService.getMaxBilhetes(idRifa); // contar bilhetes com id da rifa atual
-        return quantBilhetes;
+        return rifaService.getMaxBilhetes(idRifa);
     }
 
     public Boolean verificaCountMaximoBilhetes(Long idRifa) {
-        // como usar o rifa service dentro do bilhete service
         Optional<Integer> maximoBilhetes = getCountBilhetes(idRifa);
-        if (maximoBilhetes.isPresent()) {
-            if (maximoBilhetes.get() + 1 <= maximoBilhetes.get()) {
-                return true;
-            }
-        }
-        return false;
+        return maximoBilhetes.filter(integer -> integer + 1 <= integer).isPresent();
     }
 }

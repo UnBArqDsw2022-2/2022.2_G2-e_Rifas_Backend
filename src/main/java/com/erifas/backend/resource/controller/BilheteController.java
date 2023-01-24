@@ -2,12 +2,12 @@ package com.erifas.backend.resource.controller;
 
 import com.erifas.backend.persistence.model.Bilhete;
 
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
 import org.springframework.http.HttpStatus;
 import com.erifas.backend.service.BilheteService;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -37,8 +37,8 @@ public class BilheteController {
     }
 
     @GetMapping("/contabilhetes/{id}")
-    public ResponseEntity<Float> contaBilhetesVendidos(@PathVariable Long idRifa) {
-        return bilheteService.getCountBilhetes(idRifa).map(ResponseEntity::ok)
+    public ResponseEntity<Integer> contaBilhetesVendidos(@PathVariable Long id) {
+        return bilheteService.getCountBilhetes(id).map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
