@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.erifas.backend.constants.StatusRifa;
-import com.erifas.backend.external.keycloak.service.KeycloakTokenComponent;
 import com.erifas.backend.persistence.model.Rifa;
 import com.erifas.backend.repository.jpa.core.RifaRepository;
 import org.slf4j.Logger;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class RifaService {
 
     private final RifaRepository rifaRepository;
-    Logger logger = LoggerFactory.getLogger(KeycloakTokenComponent.class);
+    Logger logger = LoggerFactory.getLogger(RifaService.class);
 
     public RifaService(RifaRepository rifaRepository) {
         this.rifaRepository = rifaRepository;
@@ -38,18 +37,18 @@ public class RifaService {
         return false;
     }
 
-    public ResponseEntity<List<Rifa>> rifasAbertas() {
+    public ResponseEntity<List<Rifa>> getRifasPeloStatus(StatusRifa statusRifa) {
         try {
-            List<Rifa> rifasAbertas = rifaRepository.findByStatus(StatusRifa.ABERTA);
-            if (!rifasAbertas.isEmpty()) {
-                logger.info("Rifas encontradas: ");
-                return new ResponseEntity<>(rifasAbertas, HttpStatus.OK);
+            List<Rifa> rifas = rifaRepository.findAll().stream().filter(r -> r.getStatus() == statusRifa).toList();
+            if (!rifas.isEmpty()) {
+                logger.info("Rifas encontradas com status {}: {}", statusRifa, rifas);
+                return new ResponseEntity<>(rifas, HttpStatus.OK);
             } else {
-                logger.error("Nenhuma rifa encontrada!");
+                logger.warn("Nenhuma rifa encontrada com status {}", statusRifa);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
-            logger.error("Erro ao encontrar rifas abertas!", e);
+            logger.error("Erro ao encontrar rifas com status {}", statusRifa, e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

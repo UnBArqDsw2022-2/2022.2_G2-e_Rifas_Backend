@@ -60,6 +60,21 @@ public class RifaController {
 
     @GetMapping("/abertas")
     public ResponseEntity<List<Rifa>> rifasAbertas() {
-        return rifaService.rifasAbertas();
+        return rifaService.getRifasPeloStatus(StatusRifa.ABERTA);
+    }
+
+    @GetMapping("/fechadas")
+    public ResponseEntity<List<Rifa>> rifasFechadas() {
+        return rifaService.getRifasPeloStatus(StatusRifa.FECHADA);
+    }
+
+    @GetMapping("/analise")
+    public ResponseEntity<List<Rifa>> rifasEmAnalise() {
+        return rifaService.getRifasPeloStatus(StatusRifa.EM_ANALISE);
+    }
+
+    @GetMapping("/canceladas")
+    public ResponseEntity<List<Rifa>> rifasCanceladas() {
+        return rifaService.getRifasPeloStatus(StatusRifa.CANCELADA);
     }
 }
