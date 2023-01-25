@@ -2,6 +2,7 @@ package com.erifas.backend.persistence.model;
 
 import java.util.List;
 
+import com.erifas.backend.constants.StatusRifa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
