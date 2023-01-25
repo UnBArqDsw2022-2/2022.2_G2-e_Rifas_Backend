@@ -19,6 +19,7 @@ public class Rifa {
     private Long id;
     private String nome;
     private StatusRifa status;
+    private Integer maximoBilhetes;
 
     @OneToMany(mappedBy = "rifa")
     private List<Bilhete> bilhetes;

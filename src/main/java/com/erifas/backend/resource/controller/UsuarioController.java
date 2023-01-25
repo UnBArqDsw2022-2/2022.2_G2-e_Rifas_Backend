@@ -1,7 +1,6 @@
 package com.erifas.backend.resource.controller;
 
 import com.erifas.backend.external.keycloak.dto.User;
-import com.erifas.backend.persistence.model.Usuario;
 import com.erifas.backend.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

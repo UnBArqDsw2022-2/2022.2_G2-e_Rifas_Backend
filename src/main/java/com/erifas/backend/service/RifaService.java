@@ -1,8 +1,5 @@
 package com.erifas.backend.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.erifas.backend.constants.StatusRifa;
 import com.erifas.backend.persistence.model.Rifa;
 import com.erifas.backend.repository.jpa.core.RifaRepository;
@@ -11,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RifaService {
