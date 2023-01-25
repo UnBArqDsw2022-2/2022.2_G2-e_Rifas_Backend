@@ -24,7 +24,6 @@ public class RifaService {
             switch (status) {
                 case ABERTA -> rifa.get().setStatus(StatusRifa.ABERTA);
                 case FECHADA -> rifa.get().setStatus(StatusRifa.FECHADA);
-                case EM_ANALISE -> rifa.get().setStatus(StatusRifa.EM_ANALISE);
                 case CANCELADA -> rifa.get().setStatus(StatusRifa.CANCELADA);
             }
             rifaRepository.save(rifa.get());
