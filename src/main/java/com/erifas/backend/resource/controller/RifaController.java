@@ -49,15 +49,6 @@ public class RifaController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PutMapping("/analise/{id}")
-    public ResponseEntity<RifaService> analisarRifa(@PathVariable Long id) {
-        if (rifaService.mudarStatusRifa(id, StatusRifa.EM_ANALISE)) {
-            return ResponseEntity.ok(rifaService);
-        }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-
     @GetMapping("/abertas")
     public ResponseEntity<List<Rifa>> rifasAbertas() {
         return rifaService.getRifasPeloStatus(StatusRifa.ABERTA);

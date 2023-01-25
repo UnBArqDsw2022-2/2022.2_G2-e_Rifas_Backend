@@ -17,7 +17,7 @@ public class Rifa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private StatusRifa status;
+    private StatusRifa status = StatusRifa.EM_ANALISE;
 
     @OneToMany(mappedBy = "rifa")
     private List<Bilhete> bilhetes;
