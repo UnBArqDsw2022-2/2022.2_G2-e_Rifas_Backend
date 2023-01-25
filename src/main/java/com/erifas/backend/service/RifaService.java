@@ -56,4 +56,9 @@ public class RifaService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    public Optional<Integer> getMaxBilhetes(Long idRifa) {
+        Optional<Rifa> rifaById = rifaRepository.findById(idRifa);
+        return rifaById.map(Rifa::getMaximoBilhetes);
+    }
 }
