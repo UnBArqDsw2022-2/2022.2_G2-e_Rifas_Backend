@@ -23,10 +23,6 @@ public class Rifa {
     @OneToMany(mappedBy = "rifa")
     private List<Bilhete> bilhetes;
 
-    @OneToOne(optional = true)
-    @JoinColumn(name = "bilhete_id", referencedColumnName = "id")
-    private Bilhete bilheteVencedor;
-
     public void setId(Long id) {
         this.id = id;
     }
