@@ -4,15 +4,14 @@ import com.erifas.backend.constants.ApplicationProperties;
 import com.erifas.backend.external.keycloak.constants.KeycloakUrl;
 import com.erifas.backend.external.keycloak.dto.Token;
 import com.erifas.backend.external.keycloak.dto.User;
-import com.erifas.backend.persistence.model.Usuario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,7 +38,7 @@ public class KeycloakService {
             Token token = authorizationToken.get();
             return Optional.ofNullable(Objects.requireNonNull(getWebClientBuilderForRequests(token.getAcessToken())
                     .get()
-                    .uri(KeycloakUrl.URL_GET_USERS.getUrl(), keycloakProperties.getRealm())
+                    .uri(KeycloakUrl.URL_USERS.getUrl(), keycloakProperties.getRealm())
                     .retrieve()
                     .toEntityList(User.class)
                     .block()).getBody());
@@ -48,7 +47,23 @@ public class KeycloakService {
         }
     }
 
+
+    public Optional<HttpStatusCode> deleteUser(String userId) {
+        Optional<Token> authorizationToken = keycloakTokenComponent.getAuthorizationToken();
+        if (authorizationToken.isPresent()) {
+            Token token = authorizationToken.get();
+            return Optional.of(Objects.requireNonNull(getWebClientBuilderForRequests(token.getAcessToken())
+                    .delete()
+                    .uri(KeycloakUrl.URL_USER_ID.getUrl(), keycloakProperties.getRealm(), userId)
+                    .retrieve()
+                    .toBodilessEntity()
+                    .block()).getStatusCode());
+        }
+        return Optional.empty();
+    }
+
     private WebClient getWebClientBuilderForRequests(String token) {
         return WebClient.builder().baseUrl(keycloakProperties.getAuthServerUrl()).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).defaultHeader("Authorization", "bearer " + token).build();
     }
+
 }

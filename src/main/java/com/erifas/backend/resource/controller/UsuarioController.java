@@ -2,10 +2,9 @@ package com.erifas.backend.resource.controller;
 
 import com.erifas.backend.external.keycloak.dto.User;
 import com.erifas.backend.service.UsuarioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,5 +23,14 @@ public class UsuarioController {
     public ResponseEntity<List<User>> listarUsuarios() {
         Optional<List<User>> usuarios = usuarioService.listarUsuarios();
         return usuarios.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deletarUsuario(@PathVariable String userId) {
+        if (usuarioService.deletarUsuario(userId)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }
