@@ -1,6 +1,7 @@
 package com.erifas.backend.persistence.model;
 
 import com.erifas.backend.constants.StatusRifa;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class Rifa {
     @Column(columnDefinition = "text")
     private String descricao;
     @OneToMany(mappedBy = "rifa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Bilhete> bilhetes;
 
     public Long getId() {

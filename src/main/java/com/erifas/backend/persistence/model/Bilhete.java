@@ -1,8 +1,11 @@
 package com.erifas.backend.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 @Entity
 @Table(name = "bilhete")
@@ -11,11 +14,13 @@ public class Bilhete {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer numero;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Comprador comprador;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rifa_id", nullable = false)
-    @JsonIgnore
+    @ToString.Exclude
+    @JsonBackReference
     private Rifa rifa;
     private Boolean sorteado = false;
 

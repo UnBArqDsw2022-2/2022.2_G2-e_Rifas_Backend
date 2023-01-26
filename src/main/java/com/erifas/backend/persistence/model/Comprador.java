@@ -1,7 +1,9 @@
 package com.erifas.backend.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -12,12 +14,13 @@ public class Comprador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn
-    @JsonIgnore
     private Usuario usuario;
 
     @OneToMany(mappedBy = "comprador", fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @JsonBackReference
     private List<Bilhete> bilhetes;
 
     public void setId(Long id) {
