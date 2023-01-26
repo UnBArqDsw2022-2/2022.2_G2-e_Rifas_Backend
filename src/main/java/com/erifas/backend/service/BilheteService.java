@@ -1,10 +1,9 @@
 package com.erifas.backend.service;
 
 import com.erifas.backend.persistence.model.Bilhete;
+import com.erifas.backend.persistence.model.Comprador;
 import com.erifas.backend.persistence.model.Rifa;
 import com.erifas.backend.repository.jpa.core.BilheteRepository;
-import com.erifas.backend.repository.jpa.core.RifaRepository;
-import com.erifas.backend.resource.controller.RifaController;
 
 import org.springframework.stereotype.Service;
 
@@ -15,14 +14,26 @@ import java.util.Optional;
 public class BilheteService {
     private final BilheteRepository bilheteRepository;
     private final RifaService rifaService;
+    private final CompradorService compradorService;
 
-    public BilheteService(BilheteRepository bilheteRepository, RifaService rifaService) {
+
+    public BilheteService(BilheteRepository bilheteRepository, RifaService rifaService, CompradorService compradorService) {
         this.bilheteRepository = bilheteRepository;
         this.rifaService = rifaService;
+        this.compradorService = compradorService;
     }
 
-    public Bilhete save(Bilhete e) {
-        return bilheteRepository.save(e);
+    public Optional<Bilhete> save(Bilhete e, Long idRifa) {
+        Optional<Comprador> compradorByUserId = compradorService.getCompradorByUserId(e.getComprador().getUsuario().getId());
+        if (compradorByUserId.isPresent()) {
+            Optional<Rifa> rifaById = rifaService.findById(idRifa);
+            if (rifaById.isPresent()) {
+                e.setComprador(compradorByUserId.get());
+                e.setRifa(rifaById.get());
+                return Optional.of(bilheteRepository.save(e));
+            }
+        }
+        return Optional.empty();
     }
 
     public List<Bilhete> saveAll(List<Bilhete> e) {
@@ -30,11 +41,14 @@ public class BilheteService {
     }
 
     public Optional<Integer> getCountBilhetes(Long idRifa) {
-        return rifaService.getMaxBilhetes(idRifa);
+        return rifaService.getCountBilhetes(idRifa);
     }
 
     public Boolean verificaCountMaximoBilhetes(Long idRifa) {
-        Optional<Integer> maximoBilhetes = getCountBilhetes(idRifa);
-        return maximoBilhetes.filter(integer -> integer + 1 <= integer).isPresent();
+        Optional<Integer> maximoBilhetes = rifaService.getMaxBilhetes(idRifa);
+        if (maximoBilhetes.isPresent()) {
+            return rifaService.getCountBilhetes(idRifa).get() + 1 <= maximoBilhetes.get();
+        }
+        return false;
     }
 }

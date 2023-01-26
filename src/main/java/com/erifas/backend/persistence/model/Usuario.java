@@ -12,7 +12,6 @@ import java.util.Map;
 @Table(schema = "auth", name = "user_entity")
 @JsonIgnoreProperties
 public class Usuario {
-
     @JsonProperty("id")
     private String id;
     @JsonProperty("username")
@@ -93,6 +92,4 @@ public class Usuario {
     public void setRealm_id(String realm_id) {
         this.realm_id = realm_id;
     }
-
-
 }

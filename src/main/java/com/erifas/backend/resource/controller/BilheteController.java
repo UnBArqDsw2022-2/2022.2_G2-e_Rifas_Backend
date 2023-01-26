@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/bilhete")
@@ -19,10 +20,12 @@ public class BilheteController {
         this.bilheteService = bilheteService;
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{idRifa}")
     public ResponseEntity<Bilhete> cadastrarBilhete(@RequestBody Bilhete e, @PathVariable Long idRifa) {
         if (bilheteService.verificaCountMaximoBilhetes(idRifa)) {
-            return ResponseEntity.ok(bilheteService.save(e));
+            Optional<Bilhete> save = bilheteService.save(e, idRifa);
+            if (save.isPresent())
+                return ResponseEntity.ok().build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

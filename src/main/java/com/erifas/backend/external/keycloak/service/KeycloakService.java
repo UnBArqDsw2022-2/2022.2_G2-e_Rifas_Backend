@@ -4,6 +4,7 @@ import com.erifas.backend.constants.ApplicationProperties;
 import com.erifas.backend.external.keycloak.constants.KeycloakUrl;
 import com.erifas.backend.external.keycloak.dto.Token;
 import com.erifas.backend.external.keycloak.dto.User;
+import com.erifas.backend.persistence.model.Usuario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -58,6 +59,20 @@ public class KeycloakService {
                     .retrieve()
                     .toBodilessEntity()
                     .block()).getStatusCode());
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Usuario> getUser(String id) {
+        Optional<Token> authorizationToken = keycloakTokenComponent.getAuthorizationToken();
+        if (authorizationToken.isPresent()) {
+            Token token = authorizationToken.get();
+            return Optional.ofNullable(Objects.requireNonNull(getWebClientBuilderForRequests(token.getAcessToken())
+                    .get()
+                    .uri(KeycloakUrl.URL_USER_ID.getUrl(), keycloakProperties.getRealm(), id)
+                    .retrieve()
+                    .toEntity(Usuario.class)
+                    .block()).getBody());
         }
         return Optional.empty();
     }
