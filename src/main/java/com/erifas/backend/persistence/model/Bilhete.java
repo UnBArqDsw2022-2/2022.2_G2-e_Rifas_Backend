@@ -15,12 +15,12 @@ public class Bilhete {
     private Long id;
     private Integer numero;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonBackReference("comprador")
     private Comprador comprador;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rifa_id", nullable = false)
     @ToString.Exclude
-    @JsonBackReference
+    @JsonBackReference("bilhetes")
     private Rifa rifa;
     private Boolean sorteado = false;
 

@@ -19,7 +19,7 @@ public class Rifa {
     @Column(columnDefinition = "text")
     private String descricao;
     @OneToMany(mappedBy = "rifa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("bilhetes")
     private List<Bilhete> bilhetes;
 
     public Long getId() {

@@ -2,6 +2,7 @@ package com.erifas.backend.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.ToString;
 
@@ -20,7 +21,7 @@ public class Comprador {
 
     @OneToMany(mappedBy = "comprador", fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonBackReference
+    @JsonManagedReference("comprador")
     private List<Bilhete> bilhetes;
 
     public void setId(Long id) {
