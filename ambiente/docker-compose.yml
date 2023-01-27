@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: erifas_db
     volumes:
-      - /var/lib/postgresql/data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
       - ./initial.sql:/docker-entrypoint-initdb.d/initial.sql
     networks:
       - stack-e_rifas
@@ -54,4 +54,3 @@ networks:
 
 volumes:
   postgres_data:
-    driver: local
