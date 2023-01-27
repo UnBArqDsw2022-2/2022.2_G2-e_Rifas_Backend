@@ -1,8 +1,5 @@
 package com.erifas.backend.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.erifas.backend.constants.StatusRifa;
 import com.erifas.backend.persistence.model.Rifa;
 import com.erifas.backend.repository.jpa.core.RifaRepository;
@@ -12,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class RifaService {
 
@@ -20,6 +20,10 @@ public class RifaService {
 
     public RifaService(RifaRepository rifaRepository) {
         this.rifaRepository = rifaRepository;
+    }
+
+    public Rifa criarRifa(Rifa rifa) {
+        return rifaRepository.save(rifa);
     }
 
     public boolean mudarStatusRifa(Long id, StatusRifa status) {
@@ -50,5 +54,17 @@ public class RifaService {
             logger.error("Erro ao encontrar rifas com status {}", statusRifa, e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    public Optional<Integer> getMaxBilhetes(Long idRifa) {
+        Optional<Rifa> rifaById = rifaRepository.findById(idRifa);
+        return rifaById.map(Rifa::getMaximoBilhetes);
+    }
+    public Optional<Integer> getCountBilhetes(Long idRifa) {
+        Optional<Rifa> rifaById = rifaRepository.findById(idRifa);
+        return rifaById.map(rifa -> (rifa.getBilhetes() != null) ? rifa.getBilhetes().size() : 0);
+    }
+
+    public Optional<Rifa> findById(Long idRifa) {
+        return rifaRepository.findById(idRifa);
     }
 }

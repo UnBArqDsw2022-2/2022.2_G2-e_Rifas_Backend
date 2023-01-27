@@ -1,7 +1,9 @@
 package com.erifas.backend.external.keycloak.constants;
 
 public enum KeycloakUrl {
-    URL_GET_USERS("/admin/realms/{realm}/users");
+    URL_USERS("/admin/realms/{realm}/users"),
+    URL_USER_ID("/admin/realms/{realm}/users/{id}");
+
     private String url;
     KeycloakUrl(String url) {
         this.url = url;
