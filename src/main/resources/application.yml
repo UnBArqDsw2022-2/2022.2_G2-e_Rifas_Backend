@@ -10,7 +10,7 @@ spring:
       ddl-auto: update
 
 keycloak:
-  realm: master
+  realm: erifas
   resource: admin-cli
   public-client: true
   ssl-required: external
@@ -18,4 +18,4 @@ keycloak:
 
 keycloak-configuration:
   token-url: /realms/{realm}/protocol/openid-connect/token
-  client-secret: vxHYWx5PFwxJVFDmK3RnOXU0mIfwKHS6
+  client-secret: zLH1aDfCKqty4hsmxuoWD0FbDrEVq-KS7tC9z-RP67U
