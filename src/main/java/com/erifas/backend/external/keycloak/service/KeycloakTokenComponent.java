@@ -42,7 +42,7 @@ public class KeycloakTokenComponent {
     }
 
     private Token getRequisicaoToken() throws WebClientResponseException {
-        return getWebClientBuilderForToken().post().uri(keycloakConfigurationProperties.getTokenUrl(), "master")
+        return getWebClientBuilderForToken().post().uri(keycloakConfigurationProperties.getTokenUrl(), keycloakProperties.getRealm())
                 .body(BodyInserters.fromFormData("client_id", keycloakProperties.getResource())
                         .with("client_secret", keycloakConfigurationProperties.getClientSecret())
                         .with("grant_type", "client_credentials"))

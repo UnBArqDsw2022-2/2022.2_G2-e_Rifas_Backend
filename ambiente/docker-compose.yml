@@ -37,6 +37,9 @@ services:
       - TZ=America/Fortaleza
       - PROXY_ADDRESS_FORWARDING=false
       - KEYCLOAK_STATISTICS=all
+      - KEYCLOAK_IMPORT=/tmp/erifas-realm.json
+    volumes:
+          - ./erifas-realm.json:/tmp/erifas-realm.json
     networks:
       - stack-e_rifas
 
