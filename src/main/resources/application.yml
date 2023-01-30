@@ -11,11 +11,11 @@ spring:
 
 keycloak:
   realm: erifas
-  resource: admin-cli
+  resource: erifas_client
   public-client: true
   ssl-required: external
   auth-server-url: http://localhost:8082/auth
 
 keycloak-configuration:
   token-url: /realms/{realm}/protocol/openid-connect/token
-  client-secret: zLH1aDfCKqty4hsmxuoWD0FbDrEVq-KS7tC9z-RP67U
+  client-secret: Eow1AGkZIU2cOZggb6vrTLYKdQM9mNnT
