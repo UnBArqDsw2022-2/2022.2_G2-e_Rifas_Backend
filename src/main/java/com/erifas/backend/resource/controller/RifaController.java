@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.erifas.backend.constants.StatusRifa;
 import com.erifas.backend.persistence.model.Rifa;
 import com.erifas.backend.service.RifaService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,11 @@ public class RifaController {
 
     public RifaController(RifaService rifaService) {
         this.rifaService = rifaService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Rifa>> obterTodasRifas() {
+        return ResponseEntity.ok(rifaService.getRifasTotal());
     }
 
     @GetMapping("/{id}")
